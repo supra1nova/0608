@@ -6,8 +6,7 @@ import styled from 'styled-components';
 
 const HeaderStyled = styled(Header)`
   border-bottom: 1px solid gray;
-  background-color: black;
-`
+`;
 
 function Header(props) {
   console.log(props);
@@ -29,7 +28,6 @@ function Header(props) {
 }
 
 function Nav(props) {
-  // console.log('props', props.data);
   const liTags = props.data.map((e) => {
     return (
       <li key={e.id}>
@@ -61,21 +59,60 @@ function Article(props) {
   );
 }
 
+function Create(props) {
+  return <article>
+    <h2>Create</h2>
+    <form
+      onSubmit={(evt) => {
+        evt.preventDefault();
+        const title = evt.target.title.value;
+        const body = evt.target.title.value;
+        props.onCreate(title, body);
+      }}
+    >
+      <p>
+        <input name="title" type="text" placeholder="title"></input>
+      </p>
+      <p>
+        <textarea name="body" placeholder="body"></textarea>
+      </p>
+      <p>
+        <input type="submit" value="Create"></input>
+      </p>
+    </form>
+  </article>;
+}
+
+
+
 function App() {
   const [mode, setMode] = useState('WELCOME');
   const [id, setId] = useState(null);
-  // console.log(mode, id);
-  const topics = [
+  const [nextId, setNextId] = useState(3);
+  const [topics, setTopics] = useState([
     { id: 1, title: 'html', body: 'html is...' },
     { id: 2, title: 'css', body: 'css is...' },
-  ];
+  ]);
   let content = null;
   if (mode === 'WELCOME') {
     content = <Article title="Welcome" body="Hello, WEB !" />;
   } else if (mode === 'READ') {
     const topic = topics.filter((e) => e.id === id)[0];
     content = <Article title={topic.title} body={`Hello, ${topic.body} !`} />;
-    // content = <Article title="READ" body="Hello, READ !" />;
+  } else if (mode === 'CREATE') {
+    content = (
+      <Create
+        onCreate={(title, body) => {
+          const newTopic = { id: nextId, title, body };
+          const newTopics = [...topics];
+          newTopics.push(newTopic);
+          setTopics(newTopics);
+          setId(nextId);
+          setMode('READ');
+          setNextId(() => nextId + 1);
+        }}
+      ></Create>
+    );
   }
   return (
     <div>
@@ -93,12 +130,27 @@ function App() {
       />
       {content}
       <ButtonGroup>
-        <Button variant="outlined" onClick={() => alert('create!')}>
+        <Button
+          variant="outlined"
+          onClick={() => {
+            setMode('CREATE');
+          }}
+        >
           Create
         </Button>
         <Button>Update</Button>
       </ButtonGroup>
-      <Button variant="outlined">Delete</Button>
+      <Button variant="outlined" onClick={() => {
+        const newTopics = topics.filter(e => {
+          if (e.id === id) {
+            return false;
+          } else {
+            return true;
+          };
+        })
+        setTopics(newTopics);
+        setMode('WELCOME');
+      }}>Delete</Button>
     </div>
   );
 }
