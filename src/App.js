@@ -4,9 +4,13 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 
 function Header(props) {
-  console.log(props);
+  const myStyle = {
+    borderBottom: '1px solid gray',
+    padding: '10px',
+    fontSize: '20px',
+  };
   return (
-    <header>
+    <header style={myStyle}>
       <h1>
         <a
           href="/"
@@ -67,7 +71,7 @@ function App() {
   if (mode === 'WELCOME') {
     content = <Article title="Welcome" body="Hello, WEB !" />;
   } else if (mode === 'READ') {
-    const topic = topics.filter(e => e.id === id)[0];
+    const topic = topics.filter((e) => e.id === id)[0];
     content = <Article title={topic.title} body={`Hello, ${topic.body} !`} />;
     // content = <Article title="READ" body="Hello, READ !" />;
   }
