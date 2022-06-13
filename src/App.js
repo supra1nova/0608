@@ -2,15 +2,17 @@ import './App.css';
 import { useState } from 'react'; // 이런 애들을 Hook이라고 부른다.
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import styled from 'styled-components';
+
+const HeaderStyled = styled(Header)`
+  border-bottom: 1px solid gray;
+  background-color: black;
+`
 
 function Header(props) {
-  const myStyle = {
-    borderBottom: '1px solid gray',
-    padding: '10px',
-    fontSize: '20px',
-  };
+  console.log(props);
   return (
-    <header style={myStyle}>
+    <header className={props.className}>
       <h1>
         <a
           href="/"
@@ -27,7 +29,7 @@ function Header(props) {
 }
 
 function Nav(props) {
-  console.log('props', props.data);
+  // console.log('props', props.data);
   const liTags = props.data.map((e) => {
     return (
       <li key={e.id}>
@@ -62,7 +64,7 @@ function Article(props) {
 function App() {
   const [mode, setMode] = useState('WELCOME');
   const [id, setId] = useState(null);
-  console.log(mode, id);
+  // console.log(mode, id);
   const topics = [
     { id: 1, title: 'html', body: 'html is...' },
     { id: 2, title: 'css', body: 'css is...' },
@@ -77,7 +79,7 @@ function App() {
   }
   return (
     <div>
-      <Header
+      <HeaderStyled
         onSelect={() => {
           setMode('WELCOME');
         }}
