@@ -3,6 +3,7 @@ import { useState } from 'react'; // 이런 애들을 Hook이라고 부른다.
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import styled from 'styled-components';
+import {Link} from "react-router-dom";
 
 const HeaderStyled = styled(Header)`
   border-bottom: 1px solid gray;
@@ -13,15 +14,14 @@ function Header(props) {
   return (
     <header className={props.className}>
       <h1>
-        <a
-          href="/"
+        <Link to="/"
           onClick={(evt) => {
-            evt.preventDefault();
+            // evt.preventDefault();
             props.onSelect();
           }}
         >
           WWW
-        </a>
+        </Link>
       </h1>
     </header>
   );
@@ -31,15 +31,16 @@ function Nav(props) {
   const liTags = props.data.map((e) => {
     return (
       <li key={e.id}>
-        <a
-          href="{'/read/' + e.id}"
+        <Link
+          to={'/read/' + e.id}
+          // href="{'/read/' + e.id}"
           onClick={(evt) => {
-            evt.preventDefault();
+            // evt.preventDefault();
             props.onSelect(e.id);
           }}
         >
           {e.title}
-        </a>
+        </Link>
       </li>
     );
   });
